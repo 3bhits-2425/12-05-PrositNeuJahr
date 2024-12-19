@@ -30,6 +30,7 @@ public class FireworkScript : MonoBehaviour
             if (mesh != null)
             {
                 particleRenderer.mesh = mesh;
+                Debug.Log("Selected Mesh: " + mesh.name);
             }
 
             // Optional: Starten des Partikelsystems, falls es nicht läuft
@@ -42,25 +43,31 @@ public class FireworkScript : MonoBehaviour
 
     private void ConfigureParticleSystem()
     {
+        // Stoppe das Partikelsystem vor der Konfiguration
+        if (ParticleSystem.isPlaying)
+        {
+            ParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
         // Hole die Einstellungen des Partikelsystems
         var main = ParticleSystem.main;
         var emission = ParticleSystem.emission;
         var shape = ParticleSystem.shape;
 
         // Hauptparameter des Partikelsystems (Explosionseffekt)
-        main.duration = 2f;
-        main.startLifetime = 1f;
-        main.startSpeed = 10f;
-        main.startSize = 0.3f;
-        main.startColor = Color.white;
-        main.loop = false; // Kein Loop, einmaliges Feuerwerk
-        main.playOnAwake = false;
+        main.duration = 2f; // Dauer des Effekts
+        main.startLifetime = 1f; // Lebensdauer der Partikel
+        main.startSpeed = 10f; // Geschwindigkeit
+        main.startSize = 0.3f; // Größe
+        main.startColor = Color.white; // Farbe der Partikel
+        main.loop = false; // Einmalige Explosion
+        main.playOnAwake = false; // Nicht automatisch abspielen
 
         // Emission - Burst (explosionsartige Partikelausgabe)
         emission.rateOverTime = 0; // Keine kontinuierliche Emission
         emission.SetBursts(new ParticleSystem.Burst[]
         {
-            new ParticleSystem.Burst(0f, 50, 100) // 50-100 Partikel auf einmal
+        new ParticleSystem.Burst(0f, 50, 100) // 50-100 Partikel auf einmal
         });
 
         // Form - Kugelförmige Verteilung der Partikel
@@ -71,4 +78,5 @@ public class FireworkScript : MonoBehaviour
         particleRenderer.renderMode = ParticleSystemRenderMode.Mesh;
         particleRenderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
     }
+
 }
