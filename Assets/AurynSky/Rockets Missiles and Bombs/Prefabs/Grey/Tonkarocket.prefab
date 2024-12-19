@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33438822475518780}
   - component: {fileID: 23758199350579680}
   m_Layer: 0
-  m_Name: Rocket09_Grey
+  m_Name: Tonkarocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
