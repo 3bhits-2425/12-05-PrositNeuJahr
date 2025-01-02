@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!198 &202462800 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6114891802310276687, guid: dbacd65bcd4391643bfe5848ac8b9ffc, type: 3}
+  m_PrefabInstance: {fileID: 4746575308838348566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +346,14 @@ PrefabInstance:
       propertyPath: CustomDataModule.enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7733262115680654702, guid: dbacd65bcd4391643bfe5848ac8b9ffc, type: 3}
+      propertyPath: Sphere
+      value: 
+      objectReference: {fileID: 1070507746698105656, guid: e55b57f88687f7d49a4edfdfeba3870c, type: 3}
+    - target: {fileID: 7733262115680654702, guid: dbacd65bcd4391643bfe5848ac8b9ffc, type: 3}
+      propertyPath: ParticleSystem
+      value: 
+      objectReference: {fileID: 202462800}
     - target: {fileID: 7733262115680654702, guid: dbacd65bcd4391643bfe5848ac8b9ffc, type: 3}
       propertyPath: Particles.Array.data[0]
       value: 
