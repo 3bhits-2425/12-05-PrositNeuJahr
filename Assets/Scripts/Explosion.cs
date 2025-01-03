@@ -1,38 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    public GameObject Sphere; // Einzelnes Objekt (Kugel)
     public ParticleSystem ParticleSystem;
-    private ParticleSystemRenderer particleRenderer;
     public AudioSource audio;
 
     private void Start()
     {
-        // Zugriff auf das Partikelsystem und seinen Renderer
         ParticleSystem = GetComponent<ParticleSystem>();
-        particleRenderer = GetComponent<ParticleSystemRenderer>();
         audio = GetComponent<AudioSource>();
 
-        // Initiale Konfiguration des Partikelsystems
+        // Konfiguriere das Partikelsystem
         ConfigureParticleSystem();
-        StartExplosion();
+
+        // Starte den Explosionseffekt
+        if (ParticleSystem != null)
+        {
+            ParticleSystem.Play();
+        }
+
+        // Starte den Explosionssound
+        if (audio != null)
+        {
+            audio.Play();
+        }
+
+        // Zerstöre die Explosion nach der Effekt-Dauer
+        Destroy(gameObject, ParticleSystem.main.duration + ParticleSystem.main.startLifetime.constant);
     }
 
     private void ConfigureParticleSystem()
     {
-        // Stoppe das Partikelsystem vor der Konfiguration
-        if (ParticleSystem.isPlaying)
-        {
-            ParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        }
+        if (ParticleSystem == null) return;
 
-        // Hole die Einstellungen des Partikelsystems
+        // Hole die Module des Partikelsystems
         var main = ParticleSystem.main;
         var emission = ParticleSystem.emission;
         var shape = ParticleSystem.shape;
+        var colorOverLifetime = ParticleSystem.colorOverLifetime;
 
         // Hauptparameter des Partikelsystems (Explosionseffekt)
         main.duration = 2f; // Dauer des Effekts
@@ -45,7 +50,8 @@ public class Explosion : MonoBehaviour
 
         // Emission - Burst (explosionsartige Partikelausgabe)
         emission.rateOverTime = 0; // Keine kontinuierliche Emission
-        emission.SetBursts(new ParticleSystem.Burst[] {
+        emission.SetBursts(new ParticleSystem.Burst[]
+        {
             new ParticleSystem.Burst(0f, 50, 100) // 50-100 Partikel auf einmal
         });
 
@@ -53,46 +59,33 @@ public class Explosion : MonoBehaviour
         shape.shapeType = ParticleSystemShapeType.Sphere;
         shape.radius = 1f;
 
-        // Renderer - Mesh aktivieren
-        particleRenderer.renderMode = ParticleSystemRenderMode.Mesh;
-        particleRenderer.mesh = Sphere.GetComponent<MeshFilter>().sharedMesh; // Setze Kugel als Mesh
-        particleRenderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-    }
+        // Farbe - Dynamische Farbänderung während der Explosion
+        colorOverLifetime.enabled = true;
 
-    private void StartExplosion()
-    {
         // Liste von typischen Feuerwerksfarben
-        Color[] fireworkColors = {
-        Color.red, Color.blue, Color.green, Color.yellow, Color.magenta, Color.cyan, new Color(1f, 0.5f, 0f) // Orange
-    };
+        Color[] fireworkColors =
+        {
+            Color.red, Color.blue, Color.green, Color.yellow, Color.magenta, Color.cyan, new Color(1f, 0.5f, 0f) // Orange
+        };
 
         // Zufällige Farben aus der Liste auswählen
         Color startColor = fireworkColors[Random.Range(0, fireworkColors.Length)];
         Color endColor = fireworkColors[Random.Range(0, fireworkColors.Length)];
 
-        // Setze das ColorOverLifetime-Modul
-        var colorOverLifetime = ParticleSystem.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-
+        // Setze den Farbverlauf
         Gradient gradient = new Gradient();
         gradient.SetKeys(
-            new GradientColorKey[] {
-            new GradientColorKey(startColor, 0f), // Anfangsfarbe
-            new GradientColorKey(endColor, 1f)    // Endfarbe
+            new GradientColorKey[]
+            {
+                new GradientColorKey(startColor, 0f), // Anfangsfarbe
+                new GradientColorKey(endColor, 1f)    // Endfarbe
             },
-            new GradientAlphaKey[] {
-            new GradientAlphaKey(1f, 0f),   // Volle Deckkraft am Anfang
-            new GradientAlphaKey(0f, 1f)    // Transparenz am Ende
+            new GradientAlphaKey[]
+            {
+                new GradientAlphaKey(1f, 0f),   // Volle Deckkraft am Anfang
+                new GradientAlphaKey(0f, 1f)    // Transparenz am Ende
             }
         );
         colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
-
-        // Starte die Explosion
-        ParticleSystem.Play();
-        // starte audio
-        audio.Play();
-        
-        
     }
-
 }
