@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 10
   explosionPrefab: {fileID: 4730591377505991669, guid: dbacd65bcd4391643bfe5848ac8b9ffc, type: 3}
-  enginePrefab: {fileID: 0}
+  enginePrefab: {fileID: 7325337425844523819, guid: fc11ce9d4db132348809e53f0d9c7447, type: 3}
 --- !u!82 &6731392236993797104
 AudioSource:
   m_ObjectHideFlags: 0
