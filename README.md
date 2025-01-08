@@ -1,9 +1,11 @@
 # RoboBomb
-05-Unityprj-lauffähig
-12-Unityprj-lauffähig
+05-Unityprj - running
+08-Unityprj - running
+12-Unityprj - running
 
-Projekt RoboBomb von Luca Moldovan und Mirza Dzinic!
+Project RoboBomb from Luca Moldovan, Mirza Dzinic and David Gildinger!
 
-Das Project RoboBomb ist ein Roboterarm der sich bewegt und Feuerwerkskoerper hat, die er in die Luft wirft und 
-diese Feuerwerkskoerper dann hochgehen. 
+The project Robobomb is rocket launcher, that launches the rockets when pressing space. The rockets explode after between 4-6 seconds and change their color randomly. 
+We used the Rigidbody physics for making it more realistic. The launcher was made by ourselves and the explosion as the rocket prefab are from Assetstore.
+
 [Uploading Skizze 2.pdf…]()
