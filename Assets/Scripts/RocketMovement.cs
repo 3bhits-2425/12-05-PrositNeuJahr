@@ -5,7 +5,7 @@ public class RocketMovement : MonoBehaviour
     public float thrust = 10f;                // Schubkraft
     public GameObject explosionPrefab;        // Explosionseffekt-Prefab
     public GameObject enginePrefab;           // Antriebseffekt-Prefab
-    public float randomRange = -2f;       // Range für zufällige Richtungsänderung
+    public float randomRange = 3000f;       // Range für zufällige Richtungsänderung
 
     private Rigidbody rb;                     // Rigidbody-Komponente
 

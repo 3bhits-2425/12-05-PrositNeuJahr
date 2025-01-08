@@ -40,10 +40,10 @@ public class Explosion : MonoBehaviour
         var colorOverLifetime = ParticleSystem.colorOverLifetime;
 
         // Hauptparameter des Partikelsystems (Explosionseffekt)
-        main.duration = 2f; // Dauer des Effekts
+      // Dauer des Effekts
         main.startLifetime = 1f; // Lebensdauer der Partikel
         main.startSpeed = 10f; // Geschwindigkeit
-        main.startSize = 0.3f; // Größe
+        main.startSize = 1.6f; // Größe
         main.startColor = Color.white; // Basisfarbe
         main.loop = false; // Einmalige Explosion
         main.playOnAwake = false; // Nicht automatisch abspielen
