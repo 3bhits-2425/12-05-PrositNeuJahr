@@ -3,7 +3,9 @@ guid: 5394836435537eb4db911e36d32918e4
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rocketPrefab: {instanceID: 0}
+  - spawnPoint: {fileID: 7248044573800324432, guid: fb62faf52e9643c438d2a50dd347570f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

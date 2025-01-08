@@ -3,7 +3,7 @@ using UnityEngine;
 public class RocketSpawner : MonoBehaviour
 {
     public GameObject rocketPrefab; // Raketen-Prefab
-    public Transform spawnPoint;    // Startpunkt der Rakete
+    public GameObject spawnPoint;    // Startpunkt der Rakete
 
     void Update()
     {
@@ -11,7 +11,7 @@ public class RocketSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Leertaste gedrückt! Rakete wird gespawnt.");
-            Instantiate(rocketPrefab, spawnPoint.position, spawnPoint.rotation);
+            Instantiate(rocketPrefab, spawnPoint.transform.position, Quaternion.identity);
         }
     }
 }
