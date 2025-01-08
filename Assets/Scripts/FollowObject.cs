@@ -3,19 +3,14 @@ using UnityEngine;
 public class FollowObject : MonoBehaviour
 {
     public GameObject spawnPointObject;  // Der Spawnpunkt, den die Kamera zuerst zeigen soll
-    public GameObject rocketObject;      // Die Rakete, die sp‰ter explodiert
-    public float smoothSpeed = 0.125f;    // Wie sanft die Kamera sich bewegt
-    public Vector3 cameraOffset;         // Abstand der Kamera vom Ziel
-    public Vector3 spawnOffset;          // Offset, um die Kamera weiter vom Spawnpunkt zu platzieren
-    public float delayBeforeStart = 2f;  // Verzˆgerung bevor die Kamerafahrt beginnt
-    public float moveDuration = 3f;      // Dauer der Kamerafahrt
-    public float zoomOutDistance = 10f;  // Wie viel die Kamera herauszoomt
+    public GameObject rocketObject;      // Die Rakete, die sp√§ter startet
+    public float smoothSpeed = 0.125f;   // Wie sanft die Kamera sich bewegt
+    public Vector3 spawnOffset;          // Offset der Kamera beim Spawnpunkt
+    public Vector3 zoomOutOffset;        // Offset der Kamera beim Herauszoomen
     public float lookAtAngle = 15f;      // Der Winkel, in dem die Kamera nach oben schaut
 
-    private bool isMovingToRocket = false; // Ob die Kamera zu einer weiteren Position bewegt wird
-    private float startMoveTime;           // Startzeit der Bewegung
+    private bool isFollowingRocket = false; // Ob die Kamera der Rakete folgt
 
-    // Start wird nur einmal beim Start des Spiels aufgerufen
     void Start()
     {
         if (spawnPointObject != null)
@@ -27,42 +22,38 @@ public class FollowObject : MonoBehaviour
             // Richte die Kamera leicht nach oben aus, um den Spawnpunkt und die Umgebung zu sehen
             transform.LookAt(spawnPointObject.transform.position + new Vector3(0, lookAtAngle, 0));
         }
-
-        // Starte die Kamerafahrt nach der Verzˆgerung
-        Invoke("BeginCameraMovement", delayBeforeStart);
-    }
-
-    // Update wird in jedem Frame aufgerufen
-    void Update()
-    {
-        if (isMovingToRocket)
+        else
         {
-            // Berechne den Fortschritt der Kamerafahrt
-            float t = (Time.time - startMoveTime) / moveDuration;
-            if (t > 1f) t = 1f;
-
-            // Berechne die neue Position w‰hrend der Kamerafahrt (Wegzoom)
-            Vector3 startPosition = spawnPointObject.transform.position + spawnOffset;
-            Vector3 endPosition = rocketObject.transform.position - new Vector3(0, 0, zoomOutDistance); // Wegzoomen
-            transform.position = Vector3.Lerp(startPosition, endPosition, t);
-
-            // Richte die Kamera auf den Mittelpunkt der Szene aus
-            transform.LookAt(rocketObject.transform);
-
-            if (t == 1f)
-            {
-                isMovingToRocket = false;
-            }
+            Debug.LogWarning("SpawnPointObject ist nicht zugewiesen!");
         }
     }
 
-    // Startet die Kamerafahrt
-    private void BeginCameraMovement()
+    void Update()
+    {
+        if (isFollowingRocket && rocketObject != null)
+        {
+            // Berechne die Zielposition, w√§hrend die Kamera herauszoomt und nach oben schaut
+            Vector3 targetPosition = rocketObject.transform.position + zoomOutOffset;
+
+            // SmoothDamp f√ºr sanfte Bewegung zur Zielposition
+            Vector3 velocity = Vector3.zero; // Tempor√§re Variable f√ºr SmoothDamp
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
+
+            // Kamera auf die Rakete ausrichten
+            transform.LookAt(rocketObject.transform.position + new Vector3(0, lookAtAngle, 0));
+        }
+    }
+
+    // Diese Methode sollte aufgerufen werden, wenn eine Rakete gestartet wird
+    public void StartFollowingRocket()
     {
         if (rocketObject != null)
         {
-            isMovingToRocket = true;
-            startMoveTime = Time.time; // Setze die Startzeit der Bewegung
+            isFollowingRocket = true;
+        }
+        else
+        {
+            Debug.LogWarning("RocketObject ist nicht zugewiesen!");
         }
     }
 }
